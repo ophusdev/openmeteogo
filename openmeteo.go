@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	Version = "0.2.0"
+	Version = "0.3.0"
 
 	defaultBaseURL   = "https://api.open-meteo.com/v1/"
 	defaultUserAgent = "openmeteo-go" + "/" + Version
