@@ -15,20 +15,24 @@ import (
 const (
 	Version = "0.3.0"
 
-	defaultBaseURL   = "https://api.open-meteo.com/v1/"
-	defaultUserAgent = "openmeteo-go" + "/" + Version
-	defaultForecast  = "forecast"
+	defaultWeatherBaseURL    = "https://api.open-meteo.com/v1/"
+	defaultAirQualityBaseURL = "https://air-quality-api.open-meteo.com/v1/"
+	defaultUserAgent         = "openmeteo-go" + "/" + Version
+	defaultForecast          = "forecast"
 )
 
 type Client struct {
-	client  *http.Client
-	BaseURL *url.URL
+	client            *http.Client
+	WeatherBaseURL    *url.URL
+	AirQualityBaseURL *url.URL
 
 	UserAgent string
 
-	CurrentWeather *CurrentWeatherService
-	DailyWeather   *DailyWeatherService
-	HourlyWeather  *HourlyWeatherService
+	CurrentWeather    *CurrentWeatherService
+	DailyWeather      *DailyWeatherService
+	HourlyWeather     *HourlyWeatherService
+	HourlyAirQuality  *HourlyAirQualityService
+	CurrentAirQuality *CurrentAirQualityService
 
 	// TODO: add Air pollution and other services...
 
@@ -89,8 +93,12 @@ func (c *Client) initialize() {
 		c.client = &http.Client{}
 	}
 
-	if c.BaseURL == nil {
-		c.BaseURL, _ = url.Parse(defaultBaseURL)
+	if c.WeatherBaseURL == nil {
+		c.WeatherBaseURL, _ = url.Parse(defaultWeatherBaseURL)
+	}
+
+	if c.AirQualityBaseURL == nil {
+		c.AirQualityBaseURL, _ = url.Parse(defaultAirQualityBaseURL)
 	}
 
 	if c.UserAgent == "" {
@@ -102,10 +110,12 @@ func (c *Client) initialize() {
 	c.CurrentWeather = (*CurrentWeatherService)(&c.common)
 	c.HourlyWeather = (*HourlyWeatherService)(&c.common)
 	c.DailyWeather = (*DailyWeatherService)(&c.common)
+	c.HourlyAirQuality = (*HourlyAirQualityService)(&c.common)
+	c.CurrentAirQuality = (*CurrentAirQualityService)(&c.common)
 }
 
-func (client *Client) NewRequest(method string, url string, body interface{}, opts ...RequestOption) (*http.Request, error) {
-	u, err := client.BaseURL.Parse(url)
+func (client *Client) NewRequest(method string, url *url.URL, ref string, body interface{}, opts ...RequestOption) (*http.Request, error) {
+	u, err := url.Parse(ref)
 	if err != nil {
 		return nil, err
 	}
