@@ -33,7 +33,7 @@ func setup() (client *Client, mux *http.ServeMux, serverURL string, teardown fun
 	// configured to use test server.
 	client = NewClient(nil)
 	url, _ := url.Parse(server.URL + baseURLPath + "/")
-	client.BaseURL = url
+	client.WeatherBaseURL = url
 
 	return client, mux, server.URL, server.Close
 }
@@ -41,7 +41,7 @@ func setup() (client *Client, mux *http.ServeMux, serverURL string, teardown fun
 func TestNewClient(t *testing.T) {
 	c := NewClient(nil)
 
-	want, got := defaultBaseURL, c.BaseURL.String()
+	want, got := defaultWeatherBaseURL, c.WeatherBaseURL.String()
 	if want != got {
 		t.Errorf("NewClient BaseURL is %v, want %v", got, want)
 
@@ -72,9 +72,10 @@ func TestAddOptions(t *testing.T) {
 func TestNewRequest(t *testing.T) {
 	c := NewClient(nil)
 
-	inURL, outURL := "/v1/forecast", defaultBaseURL+"forecast"
+	url, _ := url.Parse(defaultWeatherBaseURL)
+	inURL, outURL := "/v1/forecast", defaultWeatherBaseURL+"forecast"
 	inBody, outBody := &CurrentWeatherResponse{Latitude: 44.32, Longitude: 44.32}, `{"latitude":44.32,"longitude":44.32,"generationtime_ms":0,"utc_offset_seconds":0,"timezone":"","timezone_abbreviation":"","elevation":0,"current_units":null,"current":null}`+"\n"
-	req, _ := c.NewRequest("GET", inURL, inBody)
+	req, _ := c.NewRequest("GET", url, inURL, inBody)
 
 	// test that relative URL was expanded
 	if got, want := req.URL.String(), outURL; got != want {
@@ -99,7 +100,7 @@ func TestNewRequest(t *testing.T) {
 	}
 
 	inURL = ":openmeteo.com"
-	_, err := c.NewRequest("GET", inURL, inBody)
+	_, err := c.NewRequest("GET", url, inURL, inBody)
 
 	if err == nil {
 		t.Errorf("NewRequest() Expected error, found %v", err)
@@ -117,7 +118,7 @@ func TestBareDo_returnsOpenBody(t *testing.T) {
 	})
 
 	ctx := context.Background()
-	req, err := client.NewRequest("GET", "test-url", nil)
+	req, err := client.NewRequest("GET", client.WeatherBaseURL, "test-url", nil)
 	if err != nil {
 		t.Fatalf("client.NewRequest returned error: %v", err)
 	}
@@ -151,7 +152,7 @@ func TestDo(t *testing.T) {
 		fmt.Fprint(w, `{"Foo":"foo"}`)
 	})
 
-	req, _ := client.NewRequest("GET", ".", nil)
+	req, _ := client.NewRequest("GET", client.WeatherBaseURL, ".", nil)
 	body := new(foo)
 	ctx := context.Background()
 	_, err := client.Do(ctx, req, body)
@@ -174,7 +175,7 @@ func TestDo_httpError(t *testing.T) {
 		http.Error(w, "Bad Request", 400)
 	})
 
-	req, _ := client.NewRequest("GET", ".", nil)
+	req, _ := client.NewRequest("GET", client.WeatherBaseURL, ".", nil)
 	ctx := context.Background()
 	resp, err := client.Do(ctx, req, nil)
 

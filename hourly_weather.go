@@ -122,12 +122,12 @@ type HourlyUnitsResponse struct {
 	SoilMoisture3to9m        *string `json:"soil_moisture_3_to_9cm,omitempty"`
 	SoilMoisture9to27cm      *string `json:"soil_moisture_9_to_27cm,omitempty"`
 	SoilMoisture27to81cm     *string `json:"soil_moisture_27_to_81cm,omitempty"`
-	UvIndex                  *string `json:"uv_index"`
-	UvIndexClearSky          *string `json:"uv_index_clear_sky"`
-	IsDayOrNight             *string `json:"is_day"`
-	Cape                     *string `json:"cape"`
-	FreezingLevelHeight      *string `json:"freezing_level_height"`
-	SunshineDuration         *string `json:"sunshine_duration"`
+	UvIndex                  *string `json:"uv_index,omitempty"`
+	UvIndexClearSky          *string `json:"uv_index_clear_sky,omitempty"`
+	IsDayOrNight             *string `json:"is_day,omitempty"`
+	Cape                     *string `json:"cape,omitempty"`
+	FreezingLevelHeight      *string `json:"freezing_level_height,omitempty"`
+	SunshineDuration         *string `json:"sunshine_duration,omitempty"`
 }
 
 type HourlyResponse struct {
@@ -174,12 +174,12 @@ type HourlyResponse struct {
 	SoilMoisture3to9cm       []*float64 `json:"soil_moisture_3_to_9cm,omitempty"`
 	SoilMoisture9to27cm      []*float64 `json:"soil_moisture_9_to_27cm,omitempty"`
 	SoilMoisture27to81cm     []*float64 `json:"soil_moisture_27_to_81cm,omitempty"`
-	UvIndex                  []*float64 `json:"uv_index"`
-	UvIndexClearSky          []*float64 `json:"uv_index_clear_sky"`
-	IsDayOrNight             []*int     `json:"is_day"`
-	Cape                     []*float64 `json:"cape"`
-	FreezingLevelHeight      []*float64 `json:"freezing_level_height"`
-	SunshineDuration         []*float64 `json:"sunshine_duration"`
+	UvIndex                  []*float64 `json:"uv_index,omitempty"`
+	UvIndexClearSky          []*float64 `json:"uv_index_clear_sky,omitempty"`
+	IsDayOrNight             []*int     `json:"is_day,omitempty"`
+	Cape                     []*float64 `json:"cape,omitempty"`
+	FreezingLevelHeight      []*float64 `json:"freezing_level_height,omitempty"`
+	SunshineDuration         []*float64 `json:"sunshine_duration,omitempty"`
 }
 
 // Forecast retrieve hourly weather based on provide location and requested params
@@ -190,7 +190,7 @@ func (service *HourlyWeatherService) Forecast(ctx context.Context, opts *HourlyO
 		return nil, err
 	}
 
-	req, err := service.client.NewRequest("GET", u, nil)
+	req, err := service.client.NewRequest("GET", service.client.WeatherBaseURL, u, nil)
 
 	if err != nil {
 		return nil, err

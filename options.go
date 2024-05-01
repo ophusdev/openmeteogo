@@ -33,6 +33,10 @@ const (
 
 	TimeFormatIso8601  OpenMeteoConst = "iso8601"
 	TimeFormatUnixTime OpenMeteoConst = "unixtime"
+
+	AirQualityDomain       OpenMeteoConst = "auto"
+	AirQualityDomainGlobal OpenMeteoConst = "cams_global"
+	AirQualityDomainEurope OpenMeteoConst = "cams_europe"
 )
 
 type Options struct {

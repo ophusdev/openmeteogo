@@ -112,7 +112,7 @@ func (service *DailyWeatherService) Forecast(ctx context.Context, opts *DailyOpt
 		return nil, err
 	}
 
-	req, err := service.client.NewRequest("GET", u, nil)
+	req, err := service.client.NewRequest("GET", service.client.WeatherBaseURL, u, nil)
 
 	if err != nil {
 		return nil, err
