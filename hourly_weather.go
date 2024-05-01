@@ -49,6 +49,12 @@ const (
 	HourlySoilMoisture3to9cm       OpenMeteoConst = "soil_moisture_3_to_9cm"
 	HourlySoilMoisture9to27cm      OpenMeteoConst = "soil_moisture_9_to_27cm"
 	HourlySoilMoisture27to81cm     OpenMeteoConst = "soil_moisture_27_to_81cm"
+	HourlyUvIndex                  OpenMeteoConst = "uv_index"
+	HourlyUvIndexClearSky          OpenMeteoConst = "uv_index_clear_sky"
+	HourlyIsDayOrNight             OpenMeteoConst = "is_day"
+	HourlyCape                     OpenMeteoConst = "cape"
+	HourlyFreezingLevelHeight      OpenMeteoConst = "freezing_level_height"
+	HourlySunshineDuration         OpenMeteoConst = "sunshine_duration"
 )
 
 type HourlyOptions struct {
@@ -116,6 +122,12 @@ type HourlyUnitsResponse struct {
 	SoilMoisture3to9m        *string `json:"soil_moisture_3_to_9cm,omitempty"`
 	SoilMoisture9to27cm      *string `json:"soil_moisture_9_to_27cm,omitempty"`
 	SoilMoisture27to81cm     *string `json:"soil_moisture_27_to_81cm,omitempty"`
+	UvIndex                  *string `json:"uv_index"`
+	UvIndexClearSky          *string `json:"uv_index_clear_sky"`
+	IsDayOrNight             *string `json:"is_day"`
+	Cape                     *string `json:"cape"`
+	FreezingLevelHeight      *string `json:"freezing_level_height"`
+	SunshineDuration         *string `json:"sunshine_duration"`
 }
 
 type HourlyResponse struct {
@@ -162,6 +174,12 @@ type HourlyResponse struct {
 	SoilMoisture3to9cm       []*float64 `json:"soil_moisture_3_to_9cm,omitempty"`
 	SoilMoisture9to27cm      []*float64 `json:"soil_moisture_9_to_27cm,omitempty"`
 	SoilMoisture27to81cm     []*float64 `json:"soil_moisture_27_to_81cm,omitempty"`
+	UvIndex                  []*float64 `json:"uv_index"`
+	UvIndexClearSky          []*float64 `json:"uv_index_clear_sky"`
+	IsDayOrNight             []*int     `json:"is_day"`
+	Cape                     []*float64 `json:"cape"`
+	FreezingLevelHeight      []*float64 `json:"freezing_level_height"`
+	SunshineDuration         []*float64 `json:"sunshine_duration"`
 }
 
 // Forecast retrieve hourly weather based on provide location and requested params
