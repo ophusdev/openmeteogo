@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	Version = "0.3.0"
+	Version = "0.3.1"
 
 	defaultWeatherBaseURL    = "https://api.open-meteo.com/v1/"
 	defaultAirQualityBaseURL = "https://air-quality-api.open-meteo.com/v1/"

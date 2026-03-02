@@ -1,5 +1,17 @@
 # Change Log
 
+## [0.3.1] - 2026-03-0
+  
+### Added
+    Added github actions
+
+### Changed
+
+
+### Fixed
+    Changed tests names to follow guidelines
+
+
 ## [0.3.0] - 2024-05-01
   
 ### Added
