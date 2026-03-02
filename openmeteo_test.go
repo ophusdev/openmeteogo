@@ -34,6 +34,7 @@ func setup() (client *Client, mux *http.ServeMux, serverURL string, teardown fun
 	client = NewClient(nil)
 	url, _ := url.Parse(server.URL + baseURLPath + "/")
 	client.WeatherBaseURL = url
+	client.AirQualityBaseURL = url
 
 	return client, mux, server.URL, server.Close
 }
