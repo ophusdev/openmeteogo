@@ -107,7 +107,7 @@ func TestNewRequest(t *testing.T) {
 	}
 }
 
-func TestBareDo_returnsOpenBody(t *testing.T) {
+func TestBareDoReturnsOpenBody(t *testing.T) {
 	client, mux, _, teardown := setup()
 	defer teardown()
 
@@ -167,7 +167,7 @@ func TestDo(t *testing.T) {
 	}
 }
 
-func TestDo_httpError(t *testing.T) {
+func TestDoHttpError(t *testing.T) {
 	client, mux, _, teardown := setup()
 	defer teardown()
 
